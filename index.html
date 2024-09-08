@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinLoans Property Evaluation Calculator</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e90ff, #87cefa); /* Vibrant background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: white;
+            border: 5px solid #1e90ff; /* Bold border */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Logo Container */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 60px; /* Small logo */
+        }
+
+        /* External Links Section */
+        .resources-section h2 {
+            color: #1e90ff;
+            text-align: center;
+        }
+
+        .resources-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .resources-section ul li {
+            margin: 10px 0;
+        }
+
+        .resources-section ul li a {
+            color: #1e90ff;
+            text-decoration: none;
+        }
+
+        .resources-section ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Calculator Section */
+        .calculator-frame {
+            margin-top: 30px;
+        }
+
+        .calculator-frame h1 {
+            text-align: center;
+            color: #1e90ff;
+        }
+
+        .calculator-container {
+            width: 100%;
+            text-align: left;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 2px solid #1e90ff;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #1e90ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #4682b4;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e90ff;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- FinLoans Logo -->
+        <div class="logo-container">
+            <img src="log.png" alt="FinLoans Logo" class="logo">
+        </div>
+
+        <!-- Useful External Links Section -->
+        <div class="resources-section">
+            <h2>Useful Links for Borrowers</h2>
+            <ul>
+                <li><a href="https://www.reraindia.com/" target="_blank">RERA India</a> - Learn more about RERA regulations for property buyers.</li>
+                <li><a href="https://www.incometaxindia.gov.in/" target="_blank">Income Tax India</a> - Find out more about tax deductions on home loan interest payments.</li>
+                <li><a href="https://www.cibil.com/" target="_blank">CIBIL</a> - Check your credit score before applying for a loan.</li>
+                <li><a href="https://nhb.org.in/" target="_blank">National Housing Bank</a> - Understand government housing schemes and policies.</li>
+                <li><a href="https://pmaymis.gov.in/" target="_blank">PMAY (Pradhan Mantri Awas Yojana)</a> - Check eligibility for home loan subsidies.</li>
+                <li><a href="https://lawmin.gov.in/" target="_blank">Ministry of Law and Justice</a> - Explore borrower rights under Indian law.</li>
+                <li><a href="https://igrodisha.gov.in/ViewFeeValue.aspx" target="_blank">Odisha Benchmark Valuation & Fee Calculation</a> - Check property valuation and fee calculations for Odisha State.</li>
+            </ul>
+        </div>
+
+        <!-- Property Evaluation Calculator Section -->
+        <div class="calculator-frame">
+            <h1>Property Evaluation Calculator</h1>
+            
+            <div class="calculator-container">
+                <label for="location">Location:</label>
+                <select id="location">
+                    <option value="urban">Urban</option>
+                    <option value="suburban">Suburban</option>
+                    <option value="rural">Rural</option>
+                </select>
+
+                <label for="propertyType">Property Type:</label>
+                <select id="propertyType">
+                    <option value="residential">Residential</option>
+                    <option value="commercial">Commercial</option>
+                </select>
+
+                <label for="size">Size (in sq. ft.):</label>
+                <input type="number" id="size" placeholder="Enter property size">
+
+                <label for="bedrooms">Number of Bedrooms:</label>
+                <input type="number" id="bedrooms" placeholder="Enter number of bedrooms">
+
+                <label for="age">Property Age (in years):</label>
+                <input type="number" id="age" placeholder="Enter property age">
+
+                <button id="calculateButton">Evaluate Property</button>
+
+                <div class="result" id="result"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('calculateButton').addEventListener('click', calculateValue);
+
+        function calculateValue() {
+            // Get the values from the input fields
+            var location = document.getElementById('location').value;
+            var propertyType = document.getElementById('propertyType').value;
+            var size = document.getElementById('size').value;
+            var bedrooms = document.getElementById('bedrooms').value;
+            var age = document.getElementById('age').value;
+
+            // Base value calculation using property size and price per square foot
+            var baseValue = size * 5000; // Assuming base price of ₹5000 per sq. ft.
+            
+            // Adjust base value based on the location
+            if (location === 'urban') {
+                baseValue *= 1.5; // Increase value by 50% for urban areas
+            } else if (location === 'suburban') {
+                baseValue *= 1.2; // Increase value by 20% for suburban areas
+            } else {
+                baseValue *= 0.8; // Decrease value by 20% for rural areas
+            }
+
+            // Adjust base value based on property type
+            if (propertyType === 'commercial') {
+                baseValue *= 1.3; // Increase value by 30% for commercial properties
+            }
+
+            // Add value for each bedroom beyond 3
+            if (bedrooms > 3) {
+                baseValue += bedrooms * 100000; // Add ₹100,000 per extra bedroom
+            }
+
+            // Decrease value for older properties
+            if (age > 10) {
+                baseValue *= 0.8; // Decrease value by 20% for properties older than 10 years
+            }
+
+            // Display the result in the result div
+            document.getElementById('result').innerText = "Estimated Property Value: ₹" + baseValue.toFixed(2);
+        }
+    </script>
+</body>
+</html>
+
